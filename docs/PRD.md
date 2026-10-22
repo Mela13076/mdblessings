@@ -1,8 +1,8 @@
 # MDBlessings — V1 Product Requirements Document
 
 **Status:** Baseline approved for engineering planning; explicitly marked open items remain unresolved  
-**Version:** 1.0-draft  
-**Last updated:** 2026-10-16  
+**Version:** 1.1-draft  
+**Last updated:** 2026-10-22  
 **Product:** MDBlessings (Mimi's Divine Blessings)
 
 ## 1. Product overview
@@ -27,8 +27,8 @@ The owner continues to confirm designs, final pricing, payment arrangements, and
 - Avoid requiring the owner to learn an order-management dashboard in V1.
 
 ### Engineering goals
-- Ship a maintainable, accessible Next.js website within a constrained part-time development schedule (~2–4 hours/week).
-- Practice independent TypeScript, React, routing, component architecture, forms/integrations, testing, and deployment.
+- Ship a maintainable, accessible, polished Next.js website as efficiently as practical using Codex for approved implementation.
+- Developer owns product decisions, technical review, acceptance and launch; Codex may implement complete features and relevant tests.
 - Keep content models separable from UI to support a **future content-management dashboard** without prematurely implementing one.
 
 ### Practical launch measures (targets to set after baseline)
@@ -55,7 +55,7 @@ No conversion or traffic target has been agreed yet.
 | FR-02 | Product catalog | Displays 11–30 product types with photo, name, category, and starting price; users can filter by category; empty state works. |
 | FR-03 | Product detail pages | Each product has a stable shareable URL, description, starting price, multiple example photos where available, and product-specific inquiry CTA; invalid slug shows not-found state. |
 | FR-04 | General inquiry entry | Customers can request an unlisted custom item from prominent site CTAs. |
-| FR-05 | Inquiry experience | Selected form mechanism captures customer name, at least one reliable contact method (email or phone), product/general-request context, quantity when applicable, and customization notes; clearly says this is a request, not a confirmed order. |
+| FR-05 | Inquiry experience | Custom on-site form captures customer name, at least one reliable contact method (email or phone), product/general-request context, quantity when applicable, and customization notes; clearly says this is a request, not a confirmed order. |
 | FR-06 | Inquiry distribution | Inquiry link/flow can be shared from social media and accessed from product pages; product context is preserved or prefilled when technically supported. |
 | FR-07 | Our Story | Page explains family origin and meaning of MDBlessings using owner-approved copy and imagery. |
 | FR-08 | FAQ and contact | Displays owner-approved answers about customization, quotes, turnaround, local pickup, payment, and policies; offers contact/social channels. |
@@ -66,9 +66,9 @@ No conversion or traffic target has been agreed yet.
 - **No customer reference-image uploads in V1.** Customers may share images with the owner later via their chosen conversation channel.
 - **No checkout, cart, customer account, or online payment.**
 - **Local pickup only**; exact pickup details are arranged privately.
-- The delivery mechanism is **OPEN** pending owner discussion: (A) Google Form → Google Sheet, (B) custom website form → Resend email, or (C) custom website form → Google Sheet; notification add-ons are optional.
-- Do **not** assume Google Sheets is an order-management system; it may simply be a request log.
-- The final contact fields, Messenger handling, and success/failure behavior depend on the chosen mechanism.
+- **Selected implementation:** custom on-site request form → server-side validation and anti-abuse checks → Resend → business email. No inquiry database or Google Sheet in V1.
+- Recipient mailbox, sending domain/DNS verification, precise contact-field requirements and Messenger handling require owner/developer confirmation before production launch.
+- Show explicit success/error messaging; Resend acceptance alone does not guarantee inbox delivery. Define an alternate contact path.
 
 ## 5. Nonfunctional requirements
 
@@ -102,9 +102,9 @@ Owner must approve: business story, logo usage, photos, product names/descriptio
 
 | Decision | Owner | Deadline relative to implementation | Notes |
 |---|---|---|---|
-| Inquiry delivery: Google Forms/Sheets vs custom form/Resend vs custom form/Sheets | Owner + developer | Before inquiry ticket | Discuss whether owner prefers checking a sheet or receiving email; notification preferences. |
+| Resend recipient mailbox, sender domain and DNS access | Owner + developer | Before production inquiry testing | Custom on-site form + Resend is selected; verify sender setup and actual receipt. |
 | Customer contact fields and Messenger option | Owner + developer | Before inquiry ticket | Require usable email or phone; Messenger may be supplemental. |
-| Visual design system | Developer + owner | Before page styling | Existing logo and cream/gold direction; finalize fonts, colors, assets, mobile mockups. |
+| Visual design system | Developer + owner | Before final page styling | Existing logo and business-card references suggest blush/pink, cream and gold; finalize accessible colors, fonts, assets and responsive mockups. |
 | Actual catalog content and media permissions | Owner | Before content population | Confirm 11–30 entries and image quality. |
 | Business policies, contact channels, testimonial consent | Owner | Before launch | No invented claims. |
 | Domain and hosting details | Developer + owner | Before launch | Vercel proposed; domain not yet selected. |
@@ -113,6 +113,10 @@ Owner must approve: business story, logo usage, photos, product names/descriptio
 
 A **content-management dashboard** for adding/editing/hiding products, photos, categories, starting prices, testimonials, and selected site copy. Supabase PostgreSQL, Storage, and Auth are candidates for V2. An **order-management dashboard is not planned** unless the owner later identifies a real operational need.
 
-## 10. Scope change process
+## 10. Delivery workflow
+
+GitHub **milestones** group launch outcomes and **issues** specify concrete implementation tasks and acceptance criteria. Codex may implement a complete issue or tightly related batch; developer reviews the outcome, not every line beforehand. Keep blockers labeled distinctly from engineering work. Do not treat estimated issue durations as commitments.
+
+## 11. Scope change process
 
 New requests are logged as V1-critical, V1-optional, or V2/backlog. Only add to V1 if the feature is essential to a launch goal and its impact on timeline, dependencies, and tests is explicitly reviewed.

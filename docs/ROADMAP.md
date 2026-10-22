@@ -1,165 +1,130 @@
-# MDBlessings — V1 Engineering Roadmap
+# MDBlessings — V1 Engineering Roadmap (Codex Implementation)
 
-**Status:** Proposed, ready to refine into GitHub issues  
-**Version:** 1.0-draft  
-**Last updated:** 2026-10-16  
-**Capacity assumption:** ~2–4 hours/week; estimates are rough and not deadlines.
+**Status:** Implementation-ready plan; owner/content dependencies remain open  
+**Version:** 1.1-draft  
+**Updated:** 2026-10-22  
+**Execution:** GitHub milestones group outcomes; linked GitHub issues are actionable Codex implementation tickets. Estimates are optional planning aids, **not delivery deadlines**.
 
 ## Working agreement
 
-- One small ticket at a time; target roughly 1–2 focused sessions per ticket.
-- The developer proposes an approach before implementing it.
-- Mentor reviews design/code, asks guiding questions, and offers progressive hints before complete solutions.
-- Each ticket includes acceptance criteria, tests, and a short reflection.
-- Prefer a working vertical slice over premature abstractions.
-- Form provider and business-policy content remain **pending**; do not let them block unrelated tickets.
+- Developer chooses priorities, validates business details, reviews PRs/diffs and approves deployment.
+- Codex implements approved issues directly, including code, responsive styling, accessibility, reasonable tests and relevant docs.
+- Batch closely coupled work when efficient, but keep issues reviewable with explicit acceptance criteria and dependencies.
+- At the end of each issue: report what changed, checks performed, failures/uncertainties, and what needs owner review.
+- Do not stop to teach fundamentals before implementing; explain architectural choices when important.
+- V1 remains a catalog + email inquiry site, **not** checkout, customer accounts, order tracking or an admin dashboard.
+- **Selected inquiry:** custom on-site form + server-side validation + Resend email; real mailbox/domain configuration is an owner/developer dependency.
 
-## Milestone 0 — Foundation and planning
+## Milestone 0 — Foundation and design system
 
-### M0-01 — Confirm repository and tooling (1–2 h)
-**Goal:** Create a clean Next.js/TypeScript/Tailwind project and GitHub repository.
+### M0-01 — Initialize repository and tooling
+**Outcome:** Working Next.js App Router + TypeScript + Tailwind project, README/setup docs, lint/typecheck/build scripts, sensible file organization and root `AGENTS.md`; planning documents in `docs/`. No premature DB/auth packages.
+**Done when:** local dev and production build run, scripts are documented, secrets are ignored, deployment path is understandable.
 
-**Acceptance criteria**
-- App runs locally; initial build/lint scripts work.
-- README explains project goal, prerequisites, setup, and scope.
-- `.gitignore` protects secrets and build output.
-- `AGENTS.md`, PRD, technical design, and roadmap are committed in a `docs/` folder (except root `AGENTS.md`).
-- No Supabase/Prisma/auth packages added without an active requirement.
+### M0-02 — Establish branding and responsive design foundation
+**Outcome:** Use approved logo/assets as references, define tokens and typography, global styles, layout patterns and basic responsive wireframes. Suggested aesthetic: blush/pink, cream and gold, subject to approval and contrast checks.
+**Done when:** shared tokens and mobile/desktop layouts are coherent, owner/developer signs off on the direction; avoid hard-coded invented business info.
 
-**Learning focus:** Tooling choices, package scripts, environment separation.
-
-### M0-02 — Visual foundation (1–2 h)
-**Goal:** Agree on core visual language and page wireframes.
-
-**Acceptance criteria**
-- Owner/developer approve logo, palette, typography, imagery direction, and responsive navigation concept.
-- Design tokens and a small component inventory are documented.
-- Mobile and desktop rough layouts exist for home, catalog, and product details.
-
-**Dependency:** Owner review of branding.
-
-### M0-03 — Content contracts and sample data (1–2 h)
-**Goal:** Define product/category/image types and 2–3 representative sample records.
-
-**Acceptance criteria**
-- Data model supports multiple photos per product, starting prices, category, stable ID/slug, and publish state.
-- Sample data is separate from JSX.
-- Document decisions on missing prices, empty categories, and image alt text.
-
-**Learning focus:** Domain modeling, TypeScript types, separation of concerns.
+### M0-03 — Implement typed content models and seed examples
+**Outcome:** Typed product/category/image models, 2–3 representative sample records, stable IDs/slugs, starting price convention, featured/published states, images with alt text, clear separation of data and UI.
+**Done when:** seed products can render without duplicating content in JSX; unknown data remains explicitly provisional.
 
 ## Milestone 1 — Site foundation
 
-### M1-01 — Responsive shell (2–3 h)
-- Build semantic header, navigation, footer, and main layout.
-- Keyboard navigation, focus visibility, and mobile menu behavior pass manual review.
-- Primary inquiry CTA exists as a placeholder route/link without inventing a provider.
+### M1-01 — Build responsive global shell
+**Outcome:** Header, navigation/mobile menu, footer, core layout, inquiry CTA, accessibility/keyboard focus and working internal routes.
+**Done when:** mobile/desktop navigation operates with keyboard and touch; no broken links.
 
-### M1-02 — Home page (2–4 h)
-- Hero with brand identity and CTA, featured products preview, story teaser, social links.
-- Responsive layouts and image treatment.
-- No unsupported marketing claims.
+### M1-02 — Implement polished homepage
+**Outcome:** Branded hero, featured product preview, story teaser, primary inquiry CTA and approved social/contact links; adapt to small screens.
+**Done when:** compelling, coherent mobile-first page uses real or clearly flagged placeholder content; no invented testimonials or claims.
 
 ## Milestone 2 — Product showcase
 
-### M2-01 — Catalog data-access module (1–2 h)
-- Exposes typed operations for published products, categories, and product-by-slug.
-- Handles missing slug and ordering predictably.
-- Add focused tests where practical.
+### M2-01 — Build lightweight catalog access functions
+**Outcome:** Typed operations for published products/categories/product by slug and predictable order; unit tests for key selectors.
+**Done when:** UI imports catalog functions rather than manipulating content arrays across unrelated components.
 
-### M2-02 — Product listing and cards (2–4 h)
-- Displays name, image, category, and clearly labeled starting price.
-- Cards navigate to stable product detail URLs.
-- Empty/loading assumptions are appropriate for static data.
+### M2-02 — Build product listing and reusable cards
+**Outcome:** Catalog grid with optimized images, name/category, clearly labeled starting price and valid product links; graceful missing data.
+**Done when:** listing works across breakpoints with approved/sample data.
 
-### M2-03 — Category filtering (2–3 h)
-- Accessible category controls, correct results, clear empty state.
-- Document decision on URL state versus local state.
+### M2-03 — Add category filtering
+**Outcome:** Accessible filter controls, correct results, all-items option and empty state. Keep filtering simple; URL persistence optional if justified.
+**Done when:** filters work with keyboard and touch, and never show unpublished products.
 
-### M2-04 — Product details and image gallery (3–5 h)
-- Dynamic `[slug]` pages, 404 behavior, multiple images, descriptions, inquiry CTA.
-- Mobile/keyboard interactions tested.
-- Product-specific CTA preserves product context where supported by selected form.
+### M2-04 — Implement product detail pages and gallery
+**Outcome:** `/products/[slug]`, gallery of example photos, description, starting-price notice, product-specific quote CTA with preserved product context, proper 404.
+**Done when:** gallery works on mobile/keyboard and direct links/invalid slugs behave correctly.
 
-### M2-05 — Populate real catalog (variable; content-dependent)
-- Add approved 11–30 products, starting prices, photos, alt text, categories.
-- Validate every public URL and image.
-- Create a short developer-facing content-update guide.
+### M2-05 — Populate approved real catalog
+**Outcome:** Owner-approved ~11–30 product types, images, starting prices, alt text, categories and product URLs; short guide for later static content updates.
+**Done when:** owner confirms displayed content and all assets/links load. **Dependency: owner assets and price approval.**
 
-## Milestone 3 — Inquiry path (blocked by owner decision)
+## Milestone 3 — Quote inquiry experience
 
-### M3-01 — Owner workflow interview and form ADR (30–60 min)
-- Confirm whether owner wants email, spreadsheet, or both.
-- Choose Google Form/Sheet, custom form/Resend, or custom form/Sheets.
-- Confirm required contact methods, response expectations, and what constitutes a successful request.
-- Update PRD and technical design before implementation.
+### M3-01 — Confirm email and form contract (owner dependency)
+**Outcome:** Confirm business recipient inbox, sending domain/DNS access, required contact fields, optional Messenger contact, subject/content template, approved privacy wording and fallback contact channel.
+**Done when:** decisions recorded in PRD/technical notes; the custom form + Resend selection itself is already made.
 
-### M3-02 — Inquiry UX and integration (2–6 h, varies by option)
-- General and product-specific request entry points work.
-- Product context prefilled or clearly indicated.
-- Form captures agreed fields and explains quote-only status.
-- If custom: server-side validation, secrets, anti-spam, error/success states.
-- If hosted: shareable link, mobile usability, response destination, and prefill tested.
+### M3-02 — Implement custom quote form + Resend
+**Outcome:** Responsive `/request` page with general and product-prefilled modes; client UX checks, server-side validation, protected Resend integration, basic abuse controls, success/error states.
+**Done when:** both flows work end-to-end in a configured test environment, including invalid and failing requests; no secrets exposed.
+**Dependency:** M3-01 for final business config; non-sensitive UI scaffolding may start sooner.
 
-### M3-03 — Inquiry reliability and privacy checks (1–3 h)
-- Test actual owner receipt or sheet entry and a failure case.
-- Avoid duplicate submissions where feasible.
-- Document fallback contact route and data-handling/privacy notice.
-- No customer image uploads.
+### M3-03 — Verify delivery, privacy and fallback
+**Outcome:** Real email receipt test with intended mailbox, failure-path testing, graceful retry/contact alternative, privacy notice review and duplicate-submit safeguards as practical.
+**Done when:** owner actually receives a test request and understands how to respond; documented provider failure limitations. **Launch blocker.**
 
 ## Milestone 4 — Story and trust
 
-### M4-01 — About / Our Story (1–3 h)
-- Approved family/business story and imagery; responsive and accessible.
+### M4-01 — Build Our Story
+**Outcome:** Approved family story, meaning of MDBlessings, optional owner-approved imagery, responsive layout.
+**Done when:** owner approves all published text/images.
 
-### M4-02 — FAQ and contact (1–3 h)
-- Approved turnaround, quote, payment, pickup, and policy copy; social/contact links work.
+### M4-02 — Build FAQ and contact
+**Outcome:** Approved answers for customization, quotes, payment, turnaround and pickup; valid contact/social links and usable fallback contact method.
+**Done when:** no invented policies, times or home pickup address appear publicly.
 
-### M4-03 — Testimonials (1–3 h)
-- Only permissioned quotes; accessible carousel or static alternative; graceful no-content state.
+### M4-03 — Add testimonials (when approved)
+**Outcome:** Permissioned quotes in accessible responsive display; section is hidden gracefully if content unavailable.
+**Done when:** no testimonial is fabricated; user can navigate without forced motion.
+**Dependency:** owner-provided consent/content. Can be deferred from launch if unavailable.
 
-## Milestone 5 — QA and launch
+## Milestone 5 — Quality assurance and launch
 
-### M5-01 — Accessibility and responsive audit (2–4 h)
-- Keyboard, labels, headings, contrast, alt text, mobile layouts, reduced motion.
+### M5-01 — Mobile and accessibility audit
+**Outcome:** Verify mobile/tablet/desktop navigation, page layout, headings, forms, focus, image descriptions, contrast and reduced motion.
+**Done when:** no known high-severity accessibility or usability blockers remain.
 
-### M5-02 — Performance and SEO (2–3 h)
-- Optimize images, metadata, social previews, sitemap/robots where appropriate; check broken links.
+### M5-02 — SEO and performance pass
+**Outcome:** Review image sizes, metadata, social sharing previews, sitemap/robots, 404, missing images and broken links.
+**Done when:** production build passes and core public pages are shareable/search-friendly.
 
-### M5-03 — Deployment and owner acceptance (2–4 h)
-- Configure production hosting/domain, verify environment settings and forms.
-- Owner reviews content, pricing, contact channels, policies, and inquiry receipt.
-- Publish only after sign-off; document content-update and rollback process.
+### M5-03 — Deploy and obtain owner acceptance
+**Outcome:** Confirm domain/hosting, environment secrets and DNS, production smoke tests, owner review of prices/policies/photos/contact and inquiry receipt; add minimal deployment/rollback/content-update instructions.
+**Done when:** approved website is live, working on mobile, and owner can receive/respond to quote requests.
 
-## Milestone exit criteria
+## GitHub organization recommendation
 
-| Milestone | Exit condition |
-|---|---|
-| 0 | Repo/tooling works; visual direction and content contract reviewed. |
-| 1 | Navigation and home page work on mobile and desktop. |
-| 2 | Approved catalog, filters, detail pages, and imagery work end to end. |
-| 3 | A real customer can submit a request through the approved channel and owner can receive/find it. |
-| 4 | Story, FAQ, contact, and testimonials are approved and accurate. |
-| 5 | Accessibility, responsiveness, content, inquiry, and deployment checks pass; owner approves launch. |
+**Keep existing milestones and issue IDs.** Do not delete issues solely because the working style changed. Edit their descriptions and acceptance criteria, remove mentor-only requirements, and close duplicates only after verifying the functionality is covered elsewhere.
 
-## Definition of done (every ticket)
+- **Milestones:** 0 Foundation & Design, 1 Site Shell & Home, 2 Product Showcase, 3 Quote Requests, 4 Story & Trust, 5 QA & Launch.
+- **Issue labels:** `feature`, `design`, `integration`, `content`, `qa`, `blocked:owner`, `v2`, `bug` as useful.
+- **Suggested issue template:** Outcome; user-visible acceptance criteria; technical constraints; dependencies/owner input; verification; out of scope.
+- **Sequencing:** foundation → navigable shell → catalog → inquiry → content/QA → launch. Content collection and owner decisions happen in parallel to engineering.
+- **Parallelism:** M4 content pages can run while M3 business configuration is pending. Do not mark launch done without successful email testing and owner approval.
 
-- Acceptance criteria met, no known blocking errors.
-- Build/lint/tests appropriate to change pass.
-- Keyboard/mobile behavior considered for UI work.
-- No secrets or customer data committed.
-- Changes are understandable and scoped; docs updated when contracts change.
-- Developer can explain design trade-offs and one thing learned.
+## Launch gates
 
-## Backlog — V2 / later
+- [ ] Owner-approved logo, business details, images, product descriptions and starting prices
+- [ ] Site navigation, listing, filtering and product pages function across common devices
+- [ ] General and product-specific requests both work and accurately state quote-only status
+- [ ] Resend sender domain configured, business inbox receipt tested, failure/fallback checked
+- [ ] Owner-approved FAQ/policies and appropriate privacy notice published
+- [ ] Accessibility, metadata, performance and broken-link checks complete
+- [ ] Hosting/domain configured and owner signs off on production site
 
-- Supabase schema, Storage, and content migration.
-- Owner login and authorization.
-- Content dashboard: products, photos, categories, starting prices, testimonials, FAQs.
-- Optional analytics only with privacy considerations and a concrete need.
-- Order management **only if owner requests it after workflow discovery**.
-- Reusable freelance template and custom AI code-review agent are separate future initiatives.
+## V2 / future (not V1)
 
-## Suggested first issue
-
-**M0-01: Initialize the MDBlessings repository.** Before coding, developer proposes Next.js setup choices (App Router, `src/` convention, package manager, linting, testing starter, and hosting approach). Mentor reviews the proposal; developer performs setup and shares repo tree/config for review.
+Supabase-backed catalog and content dashboard; staff authentication/permissions; self-managed image uploads; optional metrics based on actual needs. Order management only if the owner requests it after workflow discovery. Reusable freelance multi-client platform and independent coding challenge/AI mentor are separate projects.
