@@ -1,6 +1,8 @@
 import type { Product } from "@/types/product";
 
-/** Development examples only. Keep unpublished until owner content approval. */
+/** Draft catalog, including developer-requested product types. Keep unpublished
+ * until descriptions, options, imagery, and price treatment have owner approval.
+ */
 export const products: readonly Product[] = [
   {
     id: "product-shirt",
@@ -37,5 +39,65 @@ export const products: readonly Product[] = [
     featured: false,
     published: false,
     displayOrder: 3,
+  },
+  {
+    id: "product-dtf-print",
+    slug: "custom-dtf-print",
+    name: "Custom DTF image / print — draft",
+    description: "Draft for custom DTF images and prints. Print format, dimensions, and design requirements need confirmation.",
+    categoryId: "prints",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: false,
+    displayOrder: 4,
+  },
+  {
+    id: "product-wooden-board",
+    slug: "custom-wooden-board",
+    name: "Custom wooden board — draft",
+    description: "Draft for customized wooden boards. Board types, dimensions, and customization options need confirmation.",
+    categoryId: "wooden-items",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: false,
+    displayOrder: 5,
+  },
+  {
+    id: "product-clear-bag",
+    slug: "custom-clear-bag",
+    name: "Custom clear bag — draft",
+    description: "Draft for custom clear bags. Bag styles, dimensions, and personalization options need confirmation.",
+    categoryId: "bags",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: false,
+    displayOrder: 6,
+  },
+  {
+    id: "product-memorial-rosary",
+    slug: "memorial-rosary",
+    name: "Memorial rosary — draft",
+    description: "Draft for memorial rosaries. Materials, design details, and available personalization need confirmation.",
+    categoryId: "memorial",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: false,
+    displayOrder: 7,
+  },
+  {
+    id: "product-memorial-handkerchief",
+    slug: "memorial-handkerchief",
+    name: "Memorial handkerchief — draft",
+    description: "Draft for memorial handkerchiefs. Fabric, dimensions, and customization options need confirmation.",
+    categoryId: "memorial",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: false,
+    displayOrder: 8,
   },
 ];

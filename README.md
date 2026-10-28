@@ -64,10 +64,11 @@ Open [localhost:3000](http://localhost:3000). The home page entry point is `src/
 | `npm run dev` | Start the local development server. |
 | `npm run lint` | Run ESLint. |
 | `npm run typecheck` | Generate Next.js route types and check TypeScript without emitting files. |
+| `npm test` | Compile and run catalog unit/content checks with Node's built-in test runner. |
 | `npm run build` | Create a production build. |
 | `npm start` | Serve the production build after running `npm run build`. |
 
-No automated test script is configured yet. Testing tools will be chosen as features require them.
+Catalog tests use the existing TypeScript compiler and Node's built-in test runner, with no additional dependencies. Generated CommonJS test files go to ignored `.test-build/`; edit the source tests in `src/lib/catalog.test.ts`.
 
 No inquiry-provider credentials are required for the current scaffold. Any future provider secrets must stay server-side in local or deployment environment configuration. Never commit secrets or customer inquiry data.
 
@@ -82,7 +83,7 @@ AGENTS.md             Engineering collaboration guidelines
 
 Product content modules and reusable components will be added under `src/` as their roadmap tickets are implemented.
 
-The M1-01 global shell lives in `src/components/layout/`, with shared business identity and navigation in `src/content/site.ts`. The M1-02 homepage follows the design wireframe with clearly labeled preview copy and photo placeholders; its content is in `src/content/home.ts` and scoped styles/helpers are in `src/components/home/`. Catalog, content, and form routes still have preview pages. Product-detail URLs return 404 until that feature is implemented. See [shell verification](docs/M1-01_VERIFICATION.md) and [homepage verification](docs/M1-02_VERIFICATION.md) for checks and remaining review work.
+The M1-01 global shell lives in `src/components/layout/`, with shared business identity and navigation in `src/content/site.ts`. The M1-02 homepage follows the design wireframe with clearly labeled preview copy and photo placeholders; its content is in `src/content/home.ts` and scoped styles/helpers are in `src/components/home/`. Catalog, content, and form routes still have preview pages. Product-detail URLs return 404 until that feature is implemented. See [Milestone 1 verification](docs/varification/M1_VERIFICATION.md) and [Milestone 2 verification](docs/varification/M2_VERIFICATION.md) for issue-by-issue checks and remaining review work.
 
 ## Project documentation
 

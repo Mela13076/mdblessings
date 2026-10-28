@@ -6,9 +6,26 @@ Issue: M0-03 (#3). These are development contracts, not approved catalog content
 
 - `src/types/product.ts`: Product, Category, and ProductImage contracts.
 - `src/content/categories.ts`: provisional category labels and stable identifiers.
-- `src/content/products.ts`: three unpublished, explicitly labeled sample records.
+- `src/content/products.ts`: eight unpublished sample/draft records, including custom shirts, tumblers, keepsakes, DTF prints, wooden boards, clear bags, memorial rosaries, and memorial handkerchiefs.
+- `src/lib/catalog.ts`: public catalog access functions for Server Components.
+- `src/lib/catalog-selectors.ts`: pure selection logic exercised by unit tests.
 
-Content stays outside JSX. Public pages should consume the published-only catalog access functions scheduled in M2-01 (#6), including product-by-slug lookup. Do not import these raw arrays into public pages or expose drafts through metadata, static route generation, or a client bundle. No public UI is wired to these examples in M0-03.
+Content stays outside JSX. Public pages should consume the published-only catalog access functions implemented in M2-01 (#6), including product-by-slug lookup. Do not import raw content arrays or the content-backed catalog module into Client Components; select published records in Server Components and pass those records through props. Drafts must not appear in metadata, static route generation, or a client bundle. The existing homepage layout samples remain separate from catalog records until the product UI is implemented.
+
+## Catalog access
+
+Import from `@/lib/catalog` in Server Components:
+
+| Function | Result |
+| --- | --- |
+| `getPublishedProducts()` | Published products sorted by display order, then ID. |
+| `getFeaturedProducts()` | Published featured products in the same order. |
+| `getProductBySlug(slug)` | Exact, case-sensitive published match; otherwise `undefined`. |
+| `getPublishedCategories()` | Categories containing published products, sorted by display order, then ID. |
+
+All list results are fresh arrays with readonly TypeScript return types. Selectors do not mutate source arrays; returned records are shared references, not deep-frozen copies. All content-backed lists currently return `[]` because the records remain drafts. Handle this as an ordinary empty catalog, not an error. A later product detail route should call `notFound()` when slug lookup returns `undefined`.
+
+The new product types are based on the developer's requested list. Category assignments, descriptions, and options are provisional; prices remain `null`, images remain `[]`, and publication remains disabled. Existing shirt/tumbler/keepsake IDs and slugs are preserved. DTF remains a single draft type until image/print formats are confirmed; no unapproved service or material claims are implied.
 
 ## Content decisions
 
@@ -21,6 +38,6 @@ Content stays outside JSX. Public pages should consume the published-only catalo
 
 ## Verification and remaining work
 
-TypeScript validates content shapes; publication review must also verify unique IDs/slugs, category references, valid integer prices, asset existence/dimensions, and approved content. Runtime catalog selectors and their focused behavior tests belong to M2-01. Public cards, filters, detail pages, and galleries belong to later showcase issues.
+TypeScript validates content shapes; publication review must also verify unique IDs/slugs, category references, valid integer prices, asset existence/dimensions, and approved content. Run `npm test` for the M2-01 selector and content-integrity checks. The current draft-visibility test deliberately asserts that repository records are unpublished; update that expectation when approved content is intentionally published. Public cards, filters, detail pages, and galleries belong to later showcase issues.
 
 Owner-approved photos, actual product descriptions, category names, and starting prices remain content dependencies. This issue introduces no database, CMS, or public preview route.
