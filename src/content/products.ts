@@ -1,7 +1,7 @@
 import type { Product } from "@/types/product";
 
-/** Draft catalog, including developer-requested product types. Keep unpublished
- * until descriptions, options, imagery, and price treatment have owner approval.
+/** Provisional catalog. Published samples are explicitly authorized for local
+ * filter testing; publication here does not imply owner approval for launch.
  */
 export const products: readonly Product[] = [
   {
@@ -99,5 +99,41 @@ export const products: readonly Product[] = [
     featured: false,
     published: true,
     displayOrder: 8,
+  },
+  {
+    id: "product-hoodie-sample",
+    slug: "custom-hoodie-sample",
+    name: "Custom hoodie — sample",
+    description: "Layout and filtering sample only. Hoodie styles, sizing, and customization require owner confirmation.",
+    categoryId: "apparel",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: true,
+    displayOrder: 9,
+  },
+  {
+    id: "product-long-sleeve-shirt-sample",
+    slug: "custom-long-sleeve-shirt-sample",
+    name: "Custom long-sleeve shirt — sample",
+    description: "Layout and filtering sample only. Shirt styles, sizing, and customization require owner confirmation.",
+    categoryId: "apparel",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: true,
+    displayOrder: 10,
+  },
+  {
+    id: "product-mug-sample",
+    slug: "custom-mug-sample",
+    name: "Custom mug — sample",
+    description: "Layout and filtering sample only. Mug formats and customization require owner confirmation.",
+    categoryId: "drinkware",
+    startingPriceCents: null,
+    images: [],
+    featured: false,
+    published: true,
+    displayOrder: 11,
   },
 ];

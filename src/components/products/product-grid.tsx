@@ -7,16 +7,18 @@ import { ProductCard } from "./product-card";
 type ProductGridProps = {
   products: readonly Readonly<Product>[];
   categories: readonly Readonly<Category>[];
+  filtered?: boolean;
 };
 
-export function ProductGrid({ products, categories }: ProductGridProps) {
+export function ProductGrid({ products, categories, filtered = false }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <div className="catalog-empty">
-        <h2>{content.empty.title}</h2>
-        <p>{content.empty.description}</p>
+        <h2>{filtered ? content.noMatches.title : content.empty.title}</h2>
+        <p>{filtered ? content.noMatches.description : content.empty.description}</p>
         <div className="page-actions">
-          <Link className="button" href={site.inquiry.href}>{site.inquiry.label}</Link>
+          {filtered && <Link className="button" href="/products">{content.allProductsLabel}</Link>}
+          <Link className={filtered ? "button button-secondary" : "button"} href={site.inquiry.href}>{site.inquiry.label}</Link>
           <Link className="button button-secondary" href="/">Back to home</Link>
         </div>
       </div>

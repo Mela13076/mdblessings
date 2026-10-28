@@ -5,11 +5,14 @@ import {
   selectProductBySlug,
   selectPublishedCategories,
   selectPublishedProducts,
+  selectProductsByCategory,
 } from "./catalog-selectors";
 
 /** Use in Server Components; pass only selected published records to client UI. */
-export function getPublishedProducts() {
-  return selectPublishedProducts(products);
+export function getPublishedProducts(categorySlug?: string) {
+  return categorySlug
+    ? selectProductsByCategory(products, categories, categorySlug)
+    : selectPublishedProducts(products);
 }
 
 export function getFeaturedProducts() {

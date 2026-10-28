@@ -11,6 +11,18 @@ export function selectPublishedProducts(records: readonly Product[]): readonly R
   return records.filter((product) => product.published).sort(compareDisplayOrder);
 }
 
+/** Category slugs are URL values; resolve them through the category records. */
+export function selectProductsByCategory(
+  records: readonly Product[],
+  categoryRecords: readonly Category[],
+  categorySlug?: string,
+): readonly Readonly<Product>[] {
+  const published = selectPublishedProducts(records);
+  if (!categorySlug) return published;
+  const category = categoryRecords.find((record) => record.slug === categorySlug);
+  return category ? published.filter((product) => product.categoryId === category.id) : [];
+}
+
 export function selectFeaturedProducts(records: readonly Product[]): readonly Readonly<Product>[] {
   return selectPublishedProducts(records).filter((product) => product.featured);
 }

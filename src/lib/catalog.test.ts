@@ -4,7 +4,7 @@ import type { Category, Product } from "../types/product";
 import { products } from "../content/products";
 import { categories } from "../content/categories";
 import { getFeaturedProducts, getProductBySlug, getPublishedCategories, getPublishedProducts } from "./catalog";
-import { selectFeaturedProducts, selectProductBySlug, selectPublishedCategories, selectPublishedProducts } from "./catalog-selectors";
+import { selectFeaturedProducts, selectProductBySlug, selectPublishedCategories, selectPublishedProducts, selectProductsByCategory } from "./catalog-selectors";
 
 function product(id: string, overrides: Partial<Product> = {}): Product {
   return {
@@ -72,13 +72,47 @@ test("selectors do not reorder or modify source records and preserve unknown and
   assert.equal(JSON.stringify({ fixtures, categoryFixtures }), before);
 });
 
-test("repository drafts are hidden by every content-backed access function", () => {
-  assert.ok(products.length >= 8);
-  assert.ok(products.every((record) => !record.published));
-  assert.deepEqual(getPublishedProducts(), []);
-  assert.deepEqual(getFeaturedProducts(), []);
-  assert.deepEqual(getPublishedCategories(), []);
-  for (const record of products) assert.equal(getProductBySlug(record.slug), undefined);
+test("content-backed access functions respect the current publication settings", () => {
+  const visible = getPublishedProducts();
+  assert.equal(visible.length, products.filter((record) => record.published).length);
+  assert.ok(visible.every((record) => record.published));
+  assert.ok(getFeaturedProducts().every((record) => record.published && record.featured));
+  for (const record of products) {
+    assert.equal(getProductBySlug(record.slug)?.id, record.published ? record.id : undefined);
+  }
+  for (const category of getPublishedCategories()) {
+    assert.ok(visible.some((record) => record.categoryId === category.id));
+  }
+});
+
+test("category filtering returns every matching published product in catalog order", () => {
+  const before = JSON.stringify(fixtures);
+  assert.deepEqual(ids(selectProductsByCategory(fixtures, categoryFixtures, "apparel")), ["a-shirt", "z-shirt"]);
+  assert.deepEqual(ids(selectProductsByCategory(fixtures, categoryFixtures, "drinkware")), ["b-cup"]);
+  assert.equal(JSON.stringify(fixtures), before);
+});
+
+test("all-items filtering includes all published records, while empty and invalid categories match nothing", () => {
+  assert.deepEqual(ids(selectProductsByCategory(fixtures, categoryFixtures)), ["a-shirt", "b-cup", "z-shirt"]);
+  assert.deepEqual(ids(selectProductsByCategory(fixtures, categoryFixtures, "")), ["a-shirt", "b-cup", "z-shirt"]);
+  for (const slug of ["draft-only", "empty", "unknown", "APPAREL", "__proto__"]) {
+    assert.deepEqual(selectProductsByCategory(fixtures, categoryFixtures, slug), []);
+  }
+  assert.deepEqual(selectProductsByCategory([], categoryFixtures, "apparel"), []);
+});
+
+test("filter resolves category slugs independently of internal IDs", () => {
+  const records = [product("visible", { categoryId: "internal-id" }), product("hidden", { categoryId: "internal-id", published: false })];
+  const category = [{ id: "internal-id", slug: "public-slug", name: "Category", displayOrder: 1 }];
+  assert.deepEqual(ids(selectProductsByCategory(records, category, "public-slug")), ["visible"]);
+  assert.deepEqual(selectProductsByCategory(records, category, "internal-id"), []);
+});
+
+test("published test samples provide multiple items within Apparel and Drinkware", () => {
+  assert.ok(getPublishedProducts("apparel").length >= 3);
+  assert.ok(getPublishedProducts("drinkware").length >= 2);
+  assert.deepEqual(getPublishedProducts("not-a-category"), []);
+  assert.ok(getPublishedProducts("apparel").every((record) => record.categoryId === "apparel" && record.published));
 });
 
 test("catalog records have unique stable identifiers, valid category references, and safe prices", () => {

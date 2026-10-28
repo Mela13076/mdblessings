@@ -8,7 +8,7 @@ One verification document for all Milestone 2 issues. Add implementation details
 | --- | --- | --- |
 | M2-01 | Catalog access functions | Implemented; eight tests, lint, and typecheck pass. Local production build confirmation pending. |
 | M2-02 | Product listing and cards | Implemented; 15 total tests, lint, and typecheck pass. Local build and browser review pending. |
-| M2-03 | Category filtering | Not implemented. |
+| M2-03 | Category filtering | Implemented; 24 total tests, lint, and typecheck pass. Local build and browser review pending. |
 | M2-04 | Product details and gallery | Not implemented. |
 | M2-05 | Approved real catalog | Pending owner content and publication review. |
 
@@ -81,13 +81,37 @@ Issue: [#7 — Build product listing and reusable cards](https://github.com/Mela
 
 ## M2-03 — Add category filtering
 
-**Status:** Not implemented; verification pending.
+Issue: [#8 — Add category filtering](https://github.com/Mela13076/mdblessings/issues/8)
 
-### Verify when implemented
+**Status:** Implementation and automated checks complete; local build and browser verification pending.
 
-- All-items and category selections return the correct published products.
-- Controls work with keyboard and touch and make the selected state clear.
-- Empty results display a useful message; unpublished products remain hidden.
+### Implemented
+
+- Server-rendered category links with `/products?category=<slug>`, a selected-state indicator (`aria-current="page"`), All products reset, and result counts. Filter options use only categories represented by published products.
+- Added an optional category slug to `getPublishedProducts`. The pure selector resolves slugs through category records, retains display order, and excludes unpublished products for every filter.
+- Unknown categories show a specific no-matches message and reset link. Empty query values mean all items; repeated category parameters use the first value. Refresh and browser history retain the URL selection without extra client state.
+- Wrapping links with 44px minimum touch targets and existing focus styling follow the current catalog design. No dedicated product-listing wireframe exists; the available FAQ filter controls and established brand guidelines inform the compact selected-state treatment.
+- Preserved the developer's existing eight `published: true` settings and the shirt's 2500-cent price. Added published, clearly labeled hoodie and long-sleeve shirt samples in Apparel, plus a mug sample in Drinkware. New prices remain null; photos remain empty.
+- Current test collection: 11 products, with three Apparel, two Drinkware, and two Memorial items. A visible catalog-preview notice identifies provisional sample listings/prices. These publication settings are authorized for testing, not recorded as owner-approved production content.
+- Updated earlier tests to respect intentional publication changes and test empty/draft behavior through isolated fixtures instead of assuming the entire real catalog is unpublished.
+
+### Checks (2026-10-28)
+
+- `npm test`: 24 tests passed, including nine additional filter-related tests. Coverage includes multiple matches, category slug/ID separation, stable ordering, all-items reset, unknown/empty/draft-only categories, selected link markup, filtered empty-state recovery, and the current sample grid.
+- `npm run lint`, `npm run typecheck`, and `git diff --check`: passed.
+- `npm run build`: the usual Turbopack CSS-worker port permission restriction persists in this environment, including the elevated retry.
+- Source and server-rendered markup reviewed; actual keyboard/touch, URL navigation, mobile layout, and back/forward behavior remain manual browser checks, not claimed as passed here.
+
+### Local verification
+
+1. Open `/products`: All products should be selected with 11 products.
+2. Select Apparel: three products (shirt, hoodie, long-sleeve shirt). Select Drinkware: two products (tumbler and mug). Select Memorial items: two products (rosary and handkerchief).
+3. Select All products to restore 11. Refresh a filtered URL and use browser back/forward; the highlighted category and results should agree with the URL.
+4. Visit `/products?category=not-a-category`: expect zero products, the no-matches message, and a working All products link. An empty `?category=` shows all; `?category=apparel&category=drinkware` uses Apparel.
+5. Tab to each category link and activate with Enter. Check visible focus and selected state; repeat with touch at 375px and review wrapping at intermediate and desktop widths. Check 200% zoom for overflow.
+6. Run the shared automated commands and confirm the production build locally. Filtering tests include unpublished fixtures; do not publish additional records solely to satisfy tests.
+
+Product detail routes still depend on M2-04; sample card links currently reach the intentional not-found placeholder.
 
 ## M2-04 — Implement product detail pages and gallery
 
@@ -102,7 +126,7 @@ Issue: [#7 — Build product listing and reusable cards](https://github.com/Mela
 
 ## M2-05 — Populate approved real catalog
 
-**Status:** Owner content dependency; verification pending. Eight unpublished drafts currently exist.
+**Status:** Owner content dependency; verification pending. There are currently 11 provisional records published for developer-authorized testing, not approved for production.
 
 ### Verify when implemented
 

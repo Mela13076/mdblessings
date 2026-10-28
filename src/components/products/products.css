@@ -23,3 +23,11 @@
 .catalog-empty > p { max-width: 42rem; margin-top: 1rem; color: var(--muted-foreground); }
 @media (min-width: 40rem) { .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 64rem) { .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.catalog-preview-note { margin-bottom: 1.5rem; padding: .75rem 1rem; border: 1px solid var(--border); border-radius: .35rem; background: var(--surface-accent); color: var(--foreground); font-size: .875rem; }
+.category-filters { margin-bottom: 1.25rem; }
+.category-filters ul { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; margin: 0; padding: 0; }
+.category-filters li { min-width: 0; max-width: 100%; }
+.category-filters a { display: flex; align-items: center; min-height: 44px; padding: .5rem 1rem; border: 1px solid var(--border); border-radius: .35rem; background: var(--surface); overflow-wrap: anywhere; }
+.category-filters a[aria-current="page"] { background: var(--primary); border-color: var(--primary); color: var(--primary-foreground); font-weight: 600; }
+.category-filters a:hover { text-decoration: underline; text-underline-offset: .25em; }
+.catalog-result-count { margin-bottom: 1.5rem; color: var(--muted-foreground); font-size: .875rem; }

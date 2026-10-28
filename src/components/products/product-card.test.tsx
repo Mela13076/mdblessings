@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import type { Product } from "../../types/product";
-import { getPublishedCategories, getPublishedProducts } from "../../lib/catalog";
 import { ProductCard } from "./product-card";
 import { ProductGrid } from "./product-grid";
 
@@ -52,8 +51,8 @@ test("grid preserves the selected catalog order and shows matching categories", 
   assert.equal((html.match(/>Apparel<\/p>/g) ?? []).length, 2);
 });
 
-test("the current unpublished catalog renders only an empty state and valid general CTAs", () => {
-  const html = renderToStaticMarkup(<ProductGrid products={getPublishedProducts()} categories={getPublishedCategories()} />);
+test("an empty catalog renders an empty state and valid general CTAs", () => {
+  const html = renderToStaticMarkup(<ProductGrid products={[]} categories={[]} />);
   assert.match(html, /Our collection is coming together/);
   assert.match(html, /href="\/request"/);
   assert.match(html, /href="\/"/);
