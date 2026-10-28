@@ -1,26 +1,72 @@
 @import "tailwindcss";
 
+/* Proposed light palette; final branding and typography await owner review. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --background: #fff9f1;
+  --surface: #fffdf9;
+  --surface-accent: #f3e6ce;
+  --foreground: #4a3028;
+  --muted-foreground: #715d52;
+  --border: #e4d1b5;
+  --primary: #4a3028;
+  --primary-foreground: #fff9f1;
+  --font-body: Arial, Helvetica, sans-serif;
+  --font-heading: Georgia, "Times New Roman", serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --font-sans: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+body { margin: 0; min-height: 100dvh; display: flex; flex-direction: column; background: var(--background); color: var(--foreground); font-family: var(--font-body); line-height: 1.6; }
+main { flex: 1; }
+a, button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+button { font: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--foreground); outline-offset: 5px; }
+.container { width: min(100% - 2.5rem, 76rem); margin-inline: auto; }
+.skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 20; transform: translateY(-200%); padding: .75rem 1rem; background: var(--primary); color: var(--primary-foreground); border-radius: .35rem; }
+.skip-link:focus { transform: translateY(0); }
+.site-header { background: var(--surface); border-bottom: 1px solid var(--border); }
+.header-inner { min-height: 6rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.brand { display: flex; flex-direction: column; padding-block: .75rem; }
+.brand-logo { width: 96px; height: auto; }
+.footer-brand .brand { width: fit-content; }
+.footer-brand .brand-logo { width: 160px; }
+.menu-toggle { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .5rem .75rem; border: 1px solid var(--border); border-radius: .35rem; }
+.site-navigation { display: contents; }
+.primary-navigation { display: none; flex-basis: 100%; flex-direction: column; gap: .25rem; padding-bottom: 1.25rem; }
+.primary-navigation.is-open { display: flex; }
+.primary-navigation > a:not(.button) { display: flex; align-items: center; min-height: 44px; padding: .5rem .75rem; border-radius: .25rem; }
+.primary-navigation > a[aria-current="page"]:not(.button) { background: var(--surface-accent); text-decoration: underline; text-underline-offset: .4em; }
+.primary-navigation > a:not(.button):hover, .footer-navigation a:hover { text-decoration: underline; text-underline-offset: .3em; }
+.button { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: .65rem 1.25rem; border: 1px solid var(--primary); border-radius: .35rem; background: var(--primary); color: var(--primary-foreground); font-weight: 600; text-align: center; }
+.button:hover { text-decoration: underline; text-underline-offset: .2em; }
+.button-secondary { background: transparent; color: var(--foreground); }
+.navigation-cta { margin-top: .5rem; }
+.page-intro { padding-block: clamp(3.5rem, 9vw, 8rem); }
+.eyebrow { margin-bottom: 1rem; font-size: .75rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--muted-foreground); }
+h1 { max-width: 18ch; font-family: var(--font-heading); font-weight: 400; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.1; text-wrap: balance; }
+.intro-copy { max-width: 40rem; margin-top: 1.5rem; font-size: 1.125rem; color: var(--muted-foreground); }
+.preview-note { max-width: 40rem; margin-top: 1.5rem; padding-left: 1rem; border-left: 2px solid var(--border); color: var(--muted-foreground); }
+.page-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+.text-link { display: inline-flex; align-items: center; min-height: 44px; text-decoration: underline; text-underline-offset: .3em; gap: .5rem; }
+.site-footer { background: var(--surface); border-top: 1px solid var(--border); }
+.footer-inner { display: grid; gap: 2rem; padding-block: 2.5rem; }
+.footer-brand p { margin-top: .5rem; color: var(--muted-foreground); font-size: .875rem; }
+.footer-navigation { display: flex; flex-wrap: wrap; gap: .25rem 1.5rem; align-content: start; }
+.footer-navigation a { display: inline-flex; align-items: center; min-height: 44px; }
+.quote-notice { border-top: 1px solid var(--border); padding-top: 1.5rem; color: var(--muted-foreground); font-size: .875rem; max-width: 76ch; }
+@media (min-width: 48rem) { .footer-inner { grid-template-columns: 1fr 1fr; } .quote-notice { grid-column: 1 / -1; } }
+@media (min-width: 64rem) {
+  .brand-logo { width: 112px; }
+  .header-inner { flex-wrap: nowrap; gap: 2rem; }
+  .menu-toggle { display: none; }
+  .primary-navigation, .primary-navigation.is-open { display: flex; flex-basis: auto; flex-direction: row; align-items: center; gap: .5rem; padding: 0; }
+  .navigation-cta { margin: 0 0 0 .75rem; }
 }

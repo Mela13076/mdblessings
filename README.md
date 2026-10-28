@@ -22,7 +22,7 @@ The website will give customers a place to explore examples of the business's wo
 
 Displayed prices are **starting prices**, with final pricing confirmed by the owner. Submitting an inquiry does not create a confirmed or paid order. V1 supports **local pickup only**, with exact details arranged privately.
 
-The inquiry delivery method remains pending owner review: a hosted Google Form connected to Google Sheets, a custom form delivered through Resend email, or a custom form connected to Google Sheets. The selected flow will include a privacy notice and fallback contact path.
+The selected inquiry flow is a custom on-site form delivered through Resend email. Recipient mailbox, verified sending domain, privacy wording, and fallback contact channel still require owner confirmation. The current `/request` route is a clearly labeled preview and does not collect or submit inquiries.
 
 ### V1 boundaries
 
@@ -63,6 +63,7 @@ Open [localhost:3000](http://localhost:3000). The home page entry point is `src/
 | --- | --- |
 | `npm run dev` | Start the local development server. |
 | `npm run lint` | Run ESLint. |
+| `npm run typecheck` | Generate Next.js route types and check TypeScript without emitting files. |
 | `npm run build` | Create a production build. |
 | `npm start` | Serve the production build after running `npm run build`. |
 
@@ -80,6 +81,8 @@ AGENTS.md             Engineering collaboration guidelines
 ```
 
 Product content modules and reusable components will be added under `src/` as their roadmap tickets are implemented.
+
+The M1-01 global shell lives in `src/components/layout/`, with shared business identity and navigation in `src/content/site.ts`. All primary navigation destinations have preview pages; full homepage, catalog, content, and form features remain separate roadmap tickets. Product-detail URLs return 404 until that feature is implemented. See [shell verification](docs/M1-01_VERIFICATION.md) for checks and remaining review work.
 
 ## Project documentation
 
