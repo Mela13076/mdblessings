@@ -7,7 +7,7 @@ One verification document for all Milestone 2 issues. Add implementation details
 | Issue | Outcome | Status |
 | --- | --- | --- |
 | M2-01 | Catalog access functions | Implemented; eight tests, lint, and typecheck pass. Local production build confirmation pending. |
-| M2-02 | Product listing and cards | Not implemented. |
+| M2-02 | Product listing and cards | Implemented; 15 total tests, lint, and typecheck pass. Local build and browser review pending. |
 | M2-03 | Category filtering | Not implemented. |
 | M2-04 | Product details and gallery | Not implemented. |
 | M2-05 | Approved real catalog | Pending owner content and publication review. |
@@ -50,13 +50,34 @@ Approve category labels and individual descriptions/options, real photography an
 
 ## M2-02 — Build product listing and reusable cards
 
-**Status:** Not implemented; verification pending.
+Issue: [#7 — Build product listing and reusable cards](https://github.com/Mela13076/mdblessings/issues/7)
 
-### Verify when implemented
+**Status:** Implementation and automated checks complete; local build and visual verification pending.
 
-- Catalog cards use the catalog functions and never expose unpublished products.
-- Each card shows a photo or missing-image state, name, category, and approved starting price or quote-only fallback.
-- Product links are valid and layouts work at mobile, tablet, and desktop widths.
+### Implemented
+
+- `/products` now reads published products/categories through `src/lib/catalog.ts` and composes a catalog introduction, quote/local-pickup notice, and reusable `ProductGrid`.
+- `ProductCard` takes product/category props and renders the first example image through Next.js Image with real dimensions, responsive sizes, lazy loading, and descriptive alt text. Photos use `object-fit: contain` to preserve the full item. Missing images show a bounded 40px decorative icon and an honest photo-pending label.
+- Prices use `formatStartingPrice`: approved nonnegative safe integer USD cents render as “Starting at”; null/invalid amounts render as “Request a quote.” A real zero is preserved.
+- Semantic product list and article cards, one clearly named link per card, visible keyboard focus, no animation, and a one/two/three-column layout at mobile/tablet/desktop widths. Long names can wrap without forcing page overflow.
+- The existing eight draft records remain unpublished. The public listing currently displays the empty state with working `/request` and home links. No fake prices, photos, categories, or product cards are published.
+- Page copy lives in `src/content/catalog-page.ts`. Prefixed catalog CSS lives with the product components and is imported by the page. No client components or package dependencies were added.
+- No dedicated catalog wireframe exists in `design/wireframes/`; the implementation follows the homepage card reference, existing shell, and design guidelines. Category filtering is M2-03.
+
+### Checks (2026-10-28)
+
+- `npm test`: 15 tests pass (eight catalog tests, five card/grid server-render tests, and two price-formatting tests).
+- Card/grid tests verify populated markup, category labels, canonical URL generation, supplied alt text/dimensions and responsive image optimization, missing-data fallbacks, selected order, and the actual all-draft catalog's empty state.
+- `npm run lint`, `npm run typecheck`, and `git diff --check`: passed.
+- `npm run build`: blocked by the same Turbopack CSS-worker local-port restriction (`Operation not permitted`), including the elevated retry.
+- Responsive CSS and markup were reviewed in source. Rendered layout, touch, and keyboard behavior in a browser have not been verified in this run; server-render tests do not replace those checks.
+
+### Local verification and dependencies
+
+1. Run the shared verification commands above, then `npm run dev` and open `/products`. It should show the empty collection state because all current records are drafts; both general CTA links should work.
+2. Review at 375px, 768px, 1024px, and 1440px, plus 320px and 200% zoom. Check spacing, readable text, focus visibility, and no horizontal overflow.
+3. Populated card behavior is exercised with test-only fixtures, without publishing real drafts. Once approved records are ready, verify the populated grid's columns, complete photos, long names, price labels, and keyboard/touch navigation in a browser.
+4. Cards generate the stable `/products/[slug]` links. End-to-end detail navigation remains dependent on M2-04: that route is currently a deliberate 404 placeholder. There are no live public product links while the catalog is empty. Do not publish records until the detail route is implemented and verified.
 
 ## M2-03 — Add category filtering
 

@@ -64,11 +64,11 @@ Open [localhost:3000](http://localhost:3000). The home page entry point is `src/
 | `npm run dev` | Start the local development server. |
 | `npm run lint` | Run ESLint. |
 | `npm run typecheck` | Generate Next.js route types and check TypeScript without emitting files. |
-| `npm test` | Compile and run catalog unit/content checks with Node's built-in test runner. |
+| `npm test` | Compile and run catalog, price, and product-card/grid checks with Node's built-in test runner. |
 | `npm run build` | Create a production build. |
 | `npm start` | Serve the production build after running `npm run build`. |
 
-Catalog tests use the existing TypeScript compiler and Node's built-in test runner, with no additional dependencies. Generated CommonJS test files go to ignored `.test-build/`; edit the source tests in `src/lib/catalog.test.ts`.
+Tests use the existing TypeScript compiler and Node's built-in test runner, with no additional dependencies. Generated CommonJS test files go to ignored `.test-build/`; edit source tests in `src/lib/` and `src/components/products/`. Component tests render markup with React's server renderer; browser layout and interactions still need manual review.
 
 No inquiry-provider credentials are required for the current scaffold. Any future provider secrets must stay server-side in local or deployment environment configuration. Never commit secrets or customer inquiry data.
 

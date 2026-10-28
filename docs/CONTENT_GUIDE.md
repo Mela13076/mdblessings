@@ -41,3 +41,11 @@ The new product types are based on the developer's requested list. Category assi
 TypeScript validates content shapes; publication review must also verify unique IDs/slugs, category references, valid integer prices, asset existence/dimensions, and approved content. Run `npm test` for the M2-01 selector and content-integrity checks. The current draft-visibility test deliberately asserts that repository records are unpublished; update that expectation when approved content is intentionally published. Public cards, filters, detail pages, and galleries belong to later showcase issues.
 
 Owner-approved photos, actual product descriptions, category names, and starting prices remain content dependencies. This issue introduces no database, CMS, or public preview route.
+
+## Product listing and cards (M2-02)
+
+`/products` now uses `getPublishedProducts()` and `getPublishedCategories()` to supply the reusable `ProductGrid` and `ProductCard` components under `src/components/products/`. Components accept selected records through props; do not pass raw drafts. Import `src/components/products/products.css` in any route that reuses them. Page copy is in `src/content/catalog-page.ts`.
+
+Cards display the first approved image, or a photo-pending placeholder when `images` is empty. The shared price formatter handles integer cents, unknown prices, and a real zero. All cards generate `/products/[slug]` links; publishing records still depends on M2-04 replacing the current detail-route 404 placeholder. The public listing remains empty until content is approved and published. Category filtering is separate M2-03 work.
+
+Run `npm test` to verify populated card markup using isolated fixtures. These fixtures are not public catalog entries and do not change publication state. Real-device layout, photo loading, and end-to-end product links must also be verified when real catalog content is ready.

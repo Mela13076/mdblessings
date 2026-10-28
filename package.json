@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
-    "test": "tsc -p tsconfig.test.json && node --test .test-build/lib/catalog.test.js"
+    "test": "tsc -p tsconfig.test.json && node --test .test-build/lib/*.test.js .test-build/components/products/*.test.js"
   },
   "dependencies": {
     "next": "16.4.2",

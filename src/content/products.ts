@@ -10,10 +10,10 @@ export const products: readonly Product[] = [
     name: "Custom shirt — sample",
     description: "Provisional shirt example for development. Customization details need owner approval.",
     categoryId: "apparel",
-    startingPriceCents: null,
+    startingPriceCents: 2500,
     images: [],
     featured: true,
-    published: false,
+    published: true,
     displayOrder: 1,
   },
   {
@@ -25,7 +25,7 @@ export const products: readonly Product[] = [
     startingPriceCents: null,
     images: [],
     featured: true,
-    published: false,
+    published: true,
     displayOrder: 2,
   },
   {
@@ -37,7 +37,7 @@ export const products: readonly Product[] = [
     startingPriceCents: null,
     images: [],
     featured: false,
-    published: false,
+    published: true,
     displayOrder: 3,
   },
   {
@@ -49,7 +49,7 @@ export const products: readonly Product[] = [
     startingPriceCents: null,
     images: [],
     featured: false,
-    published: false,
+    published: true,
     displayOrder: 4,
   },
   {
@@ -61,7 +61,7 @@ export const products: readonly Product[] = [
     startingPriceCents: null,
     images: [],
     featured: false,
-    published: false,
+    published: true,
     displayOrder: 5,
   },
   {
@@ -73,7 +73,7 @@ export const products: readonly Product[] = [
     startingPriceCents: null,
     images: [],
     featured: false,
-    published: false,
+    published: true,
     displayOrder: 6,
   },
   {
@@ -85,7 +85,7 @@ export const products: readonly Product[] = [
     startingPriceCents: null,
     images: [],
     featured: false,
-    published: false,
+    published: true,
     displayOrder: 7,
   },
   {
@@ -97,7 +97,7 @@ export const products: readonly Product[] = [
     startingPriceCents: null,
     images: [],
     featured: false,
-    published: false,
+    published: true,
     displayOrder: 8,
   },
 ];

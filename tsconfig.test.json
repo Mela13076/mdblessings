@@ -9,8 +9,17 @@
     "isolatedModules": false,
     "rootDir": "./src",
     "outDir": "./.test-build",
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
-  "include": ["src/lib/catalog.test.ts"],
-  "exclude": ["node_modules", ".next", ".test-build"]
+  "include": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    ".test-build"
+  ]
 }
