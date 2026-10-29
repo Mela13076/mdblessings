@@ -9,7 +9,7 @@ One verification document for all Milestone 2 issues. Add implementation details
 | M2-01 | Catalog access functions | Implemented; eight tests, lint, and typecheck pass. Local production build confirmation pending. |
 | M2-02 | Product listing and cards | Implemented; 15 total tests, lint, and typecheck pass. Local build and browser review pending. |
 | M2-03 | Category filtering | Implemented; 24 total tests, lint, and typecheck pass. Local build and browser review pending. |
-| M2-04 | Product details and gallery | Not implemented. |
+| M2-04 | Product details and gallery | Implemented; 27 tests, lint and typecheck pass. Route HTTP smoke checks pass; production build and detailed browser QA pending. |
 | M2-05 | Approved real catalog | Pending owner content and publication review. |
 
 ## Shared verification commands
@@ -115,14 +115,35 @@ Product detail routes still depend on M2-04; sample card links currently reach t
 
 ## M2-04 — Implement product detail pages and gallery
 
-**Status:** Not implemented; verification pending. The current route is a not-found placeholder.
+Issue: [#9 — Implement product detail pages and gallery](https://github.com/Mela13076/mdblessings/issues/9)
 
-### Verify when implemented
+**Status:** Implementation complete; automated checks and development-server HTTP smoke checks pass. Production build and detailed responsive/interaction verification remain pending.
 
-- Published product URLs load directly; unknown and draft slugs return a genuine 404.
-- Details show accurate descriptions, approved starting prices or quote-only treatment, and final-quote wording.
-- Galleries work on mobile and with keyboard input, with appropriate alt text and missing-image handling.
-- The quote CTA preserves product context and does not imply an accepted order.
+### Implemented
+
+- Server-rendered `/products/[slug]` uses published-only catalog getters, generates static params only for published records, and calls `notFound()` for unknown/unpublished records. `dynamicParams = false` limits served paths to that generated collection. Product-specific titles and descriptions use the same lookup.
+- Breadcrumbs link to Home, Products and the category filter. The overview stacks gallery before product information on mobile and splits into columns from 768px. Existing cream/champagne tokens, typography and shell remain in use.
+- Product name, category, description, shared starting-price formatter, final-quote/local-pickup notices, category browse link, native expandable detail/information panels, same-category related cards (excluding the current product), and general custom-quote CTA.
+- `ProductGallery` is the sole new client boundary. Supplied example photos use Next.js Image, real dimensions, responsive sizes and contain cropping. Previous/next buttons wrap; thumbnail buttons select directly and expose pressed state. Native buttons support Tab and Enter/Space; a polite live caption announces the current example. There is no autoplay or animation.
+- Missing photos show a neutral placeholder without image controls or broken URLs. Failed main photos show an unavailable message while retaining navigation to other examples. Single photos omit redundant controls. No swipe gesture or lightbox is required to use the gallery on touch devices.
+- Followed `productDetailsPage.png` hierarchy. Example photos stay in one gallery rather than a second duplicate carousel. Optional ratings, favorites, feature claims, turnaround promises and unsupported specifications are omitted. Related products appear only when other published products share the category.
+- Product CTA carries the stable slug as `/request?product=<slug>`. The request preview resolves only published records and displays the selected item with a return link; invalid context offers catalog recovery. It still collects/submits nothing. The actual form and Resend remain M3 work.
+- Existing 11 published test samples, prices and empty image arrays are unchanged. Preview wording remains visible; real content/photography approval belongs to M2-05.
+
+### Checks (2026-10-29)
+
+- `npm test`: 27 tests pass. Three new server-render gallery tests cover zero/one/multiple images, accessible control names/selection, image sizing/alt text and captions. Existing selectors test unpublished exclusion and exact slug matching; price tests cover null and zero.
+- `npm run lint`, `npm run typecheck`, and `git diff --check`: passed.
+- Existing local development server: `/products/custom-shirt` and `/products/custom-tumbler` return HTTP 200, `/products/not-a-product` returns HTTP 404 with `noindex`, and `/request?product=custom-shirt` returns HTTP 200 with the selected product. Response content checks confirm product title, numeric/quote-only prices, placeholder, related products and contextual CTA.
+- Safari: navigated from listing to the shirt page and inspected its accessibility tree and screenshot; expected headings, gallery placeholder, pricing, panels, related links and contextual CTA are present. This is a limited desktop smoke check, not completed multi-width visual QA.
+- `npm run build`: blocked by the existing Turbopack CSS-worker port restriction (`Operation not permitted`), including the elevated retry. A second dev instance exited because the developer's server was already running; smoke checks used the existing server without stopping it.
+
+### Remaining local verification
+
+1. Run `npm run build` locally. Check detail layouts at 375px, 768px and 1440px, plus 320px and 200% zoom, against the wireframe. Confirm no horizontal overflow and visible focus.
+2. Add approved photos when available (or temporarily use local test fixtures without committing publication changes). Verify zero, one, and multiple-photo galleries; previous/next wrap, thumbnails select, captions/alt text agree, and failed image URLs remain recoverable. Tab through controls and activate with Enter/Space; repeat with touch. Current real catalog images are all empty, so interactive gallery behavior has not been browser-tested.
+3. Follow the product quote CTA and confirm the selected name and return link; refresh the URL. Test unknown/unpublished context without exposing draft data. General `/request` should remain a neutral preview until M3.
+4. Check a product with and without related items, category breadcrumb/browse navigation, direct URLs, invalid slug 404 and unpublished slug exclusion after any publication edits.
 
 ## M2-05 — Populate approved real catalog
 

@@ -38,7 +38,7 @@ The new product types are based on the developer's requested list. Category assi
 
 ## Verification and remaining work
 
-TypeScript validates content shapes; publication review must also verify unique IDs/slugs, category references, valid integer prices, asset existence/dimensions, and approved content. Run `npm test` for the M2-01 selector and content-integrity checks. Tests now respect current publication flags and separately verify unpublished exclusion using isolated fixtures. Listing/cards and filters are implemented; detail pages and galleries remain M2-04 work.
+TypeScript validates content shapes; publication review must also verify unique IDs/slugs, category references, valid integer prices, asset existence/dimensions, and approved content. Run `npm test` for the M2-01 selector and content-integrity checks. Tests now respect current publication flags and separately verify unpublished exclusion using isolated fixtures. Listing/cards, filters, detail pages and galleries are implemented; see the M2 verification notes for outstanding browser checks.
 
 Owner-approved photos, actual product descriptions, category names, and starting prices remain content dependencies. This issue introduces no database, CMS, or public preview route.
 
@@ -46,7 +46,7 @@ Owner-approved photos, actual product descriptions, category names, and starting
 
 `/products` now uses `getPublishedProducts()` and `getPublishedCategories()` to supply the reusable `ProductGrid` and `ProductCard` components under `src/components/products/`. Components accept selected records through props; do not pass raw drafts. Import `src/components/products/products.css` in any route that reuses them. Page copy is in `src/content/catalog-page.ts`.
 
-Cards display the first approved image, or a photo-pending placeholder when `images` is empty. The shared price formatter handles integer cents, unknown prices, and a real zero. All cards generate `/products/[slug]` links; publishing records still depends on M2-04 replacing the current detail-route 404 placeholder. Published test samples currently appear in the listing. Category filtering is implemented in M2-03; detail pages remain a prerequisite for production publication.
+Cards display the first approved image, or a photo-pending placeholder when `images` is empty. The shared price formatter handles integer cents, unknown prices, and a real zero. All cards generate `/products/[slug]` links; publishing records still depends on M2-04 replacing the current detail-route 404 placeholder. Published test samples currently appear in the listing. Category filtering is implemented in M2-03; detail pages are implemented in M2-04.
 
 Run `npm test` to verify populated card markup using isolated fixtures. These fixtures are not public catalog entries and do not change publication state. Real-device layout, photo loading, and end-to-end product links must also be verified when real catalog content is ready.
 
@@ -57,3 +57,9 @@ Category links use `/products?category=<category-slug>`. The server reads `searc
 Filter options come from `getPublishedCategories()` and therefore exclude categories with no published products. The selected link has `aria-current="page"`, a distinct filled style, and at least a 44px touch target. Links wrap on small screens. Results display a product count.
 
 For local testing, Apparel has the existing shirt plus published hoodie and long-sleeve shirt samples; Drinkware has the existing tumbler plus a published mug sample. Memorial items already has two records. All 11 current records are visible under All products. The three new samples are explicitly labeled and have no invented prices or photos. Keep the catalog preview notice until owner approval replaces the sample content.
+
+## Product details and gallery (M2-04)
+
+`/products/[slug]` uses published-only lookup and static route generation. Unknown/unpublished slugs return not-found; rebuild after changing publication or slugs. Metadata uses product names/descriptions. The gallery receives only the selected published product’s ordered `images` array; the first image is selected initially. Add actual approved files/dimensions/alt text and optional captions as described above. Empty arrays show photo-pending content; no fake photos are added for layout.
+
+The contextual quote URL contract is `/request?product=<product-slug>`. The current request preview resolves that slug through the published-only getter and shows the selected item. M3 should retain this contract for prefilled form and server-side validation. This route does not yet accept submissions. Shared detail-page wording is in `src/content/product-detail.ts`; provisional sample warnings remain in `catalog-page.ts`.

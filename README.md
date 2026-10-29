@@ -83,7 +83,7 @@ AGENTS.md             Engineering collaboration guidelines
 
 Product content modules and reusable components will be added under `src/` as their roadmap tickets are implemented.
 
-The M1-01 global shell lives in `src/components/layout/`, with shared business identity and navigation in `src/content/site.ts`. The M1-02 homepage follows the design wireframe with clearly labeled preview copy and photo placeholders; its content is in `src/content/home.ts` and scoped styles/helpers are in `src/components/home/`. Catalog, content, and form routes still have preview pages. Product-detail URLs return 404 until that feature is implemented. See [Milestone 1 verification](docs/varification/M1_VERIFICATION.md) and [Milestone 2 verification](docs/varification/M2_VERIFICATION.md) for issue-by-issue checks and remaining review work.
+The M1-01 global shell lives in `src/components/layout/`, with shared business identity and navigation in `src/content/site.ts`. The M1-02 homepage follows the design wireframe with clearly labeled preview copy and photo placeholders; its content is in `src/content/home.ts` and scoped styles/helpers are in `src/components/home/`. Catalog, content, and form routes still have preview pages. Published product-detail URLs now show the M2-04 detail page and gallery; unknown/unpublished URLs return 404. The request preview preserves product context via `?product=<slug>`, with the form still deferred to M3. See [Milestone 1 verification](docs/varification/M1_VERIFICATION.md) and [Milestone 2 verification](docs/varification/M2_VERIFICATION.md) for issue-by-issue checks and remaining review work.
 
 ## Project documentation
 
