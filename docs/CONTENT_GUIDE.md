@@ -44,7 +44,7 @@ Owner-approved photos, actual product descriptions, category names, and starting
 
 ## Product listing and cards (M2-02)
 
-`/products` now uses `getPublishedProducts()` and `getPublishedCategories()` to supply the reusable `ProductGrid` and `ProductCard` components under `src/components/products/`. Components accept selected records through props; do not pass raw drafts. Import `src/components/products/products.css` in any route that reuses them. Page copy is in `src/content/catalog-page.ts`.
+`/products` now uses `getPublishedProducts()` and `getPublishedCategories()` to supply the reusable `ProductGrid` and `ProductCard` components under `src/components/products/`. Components accept selected records through props; do not pass raw drafts. Styling is colocated as Tailwind utilities; no component stylesheet import is required. Page copy is in `src/content/catalog-page.ts`.
 
 Cards display the first approved image, or a photo-pending placeholder when `images` is empty. The shared price formatter handles integer cents, unknown prices, and a real zero. All cards generate `/products/[slug]` links; publishing records still depends on M2-04 replacing the current detail-route 404 placeholder. Published test samples currently appear in the listing. Category filtering is implemented in M2-03; detail pages are implemented in M2-04.
 

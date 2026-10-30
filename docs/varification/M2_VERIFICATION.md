@@ -156,3 +156,23 @@ Issue: [#9 — Implement product detail pages and gallery](https://github.com/Me
 - All photos load with accurate alt text and appropriate dimensions.
 - Published listing, filters, featured selections, and detail pages agree with the approved content.
 - The content-maintenance guide reflects the final workflow.
+
+## Site-wide Tailwind migration — 2026-10-29
+
+Developer requested replacing custom component CSS throughout the site with Tailwind utilities. This follow-up supersedes the earlier descriptions of component CSS files; prior issue records above remain historical verification notes.
+
+### Changes
+
+- Migrated header/footer, mobile navigation, homepage and placeholder artwork, catalog/cards/filters, product details/gallery, request preview, and shared placeholder destinations to Tailwind utility classes in TSX.
+- Removed `home.module.css`, `products.css` and `product-detail.css` and all their imports. `globals.css` retains the Tailwind import, semantic color/font tokens and base defaults in `@layer base`. No new dependencies, content/publication changes, routes or submission behavior.
+- Kept existing spacing, breakpoints (640/768/1024px), theme colors, contain image cropping, touch target sizes, focus outlines, selected filter/thumbnail states, and mobile disclosure behavior. Breadcrumbs retain baseline alignment. Font shorthand defaults in detail panels are represented with explicit normal line-height utilities.
+- Extended the shared placeholder artwork's props for existing hero/story sizing and icon sizes instead of relying on CSS Module descendant selectors. Updated current documentation to describe the Tailwind convention.
+
+### Verification
+
+- `npm test`: all 27 existing tests pass; no tests were rewritten to depend on utility class strings.
+- Final `npm run lint`, `npm run typecheck`, and `git diff --check`: passed. An initial `npm run build` succeeded and supplied the production preview below. After final normal-line-height/font-token cleanup, the rebuild hit the existing Turbopack CSS-worker port restriction (`Operation not permitted`), including the elevated retry. Re-run the final build locally; the initial success does not verify those last cleanup changes.
+- Compiled the final stylesheet directly with the installed Tailwind compiler: passed, including the heading font, normal line-height, breadcrumb baseline and responsive rules. This validates Tailwind generation but does not replace a full final Next.js production build.
+- Audited utility generation with the installed Tailwind compiler, including responsive classes, pseudo-element breadcrumb separators, ARIA selection states, semantic theme colors, group variants and calculated widths. The only non-utility found by the inspection script was the `story` prop comparison value; `group` is intentionally a Tailwind state marker.
+- Safari production preview on port 3100: reviewed the product detail page at desktop width and 375px; breadcrumbs align and the mobile overview stacks. Opened the mobile menu and confirmed expanded links appear; Escape closes it. Reviewed the mobile homepage hero, stacked CTAs and placeholder artwork at 375px.
+- Full multi-width visual comparisons of every lower section, real-photo gallery interaction, touch-device testing and screen-reader/zoom checks remain release QA. Further native-browser inspection was interrupted by a `noWindowsAvailable` tool error; no complete visual audit is claimed.

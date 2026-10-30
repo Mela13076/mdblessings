@@ -18,23 +18,23 @@ function NavigationDisclosure({ links, inquiry, pathname }: NavigationProps & { 
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   return (
-    <div className="site-navigation" onKeyDown={(event) => {
+    <div className="contents" onKeyDown={(event) => {
       if (event.key === "Escape" && open) {
         setOpen(false);
         toggleRef.current?.focus();
       }
     }}>
-      <button ref={toggleRef} className="menu-toggle" type="button" aria-expanded={open} aria-controls="primary-navigation" onClick={() => setOpen(!open)}>
+      <button ref={toggleRef} className="flex min-h-11 items-center justify-center gap-2 rounded-[.35rem] border border-border px-3 py-2 lg:hidden" type="button" aria-expanded={open} aria-controls="primary-navigation" onClick={() => setOpen(!open)}>
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d={open ? "M6 6l12 12M6 18L18 6" : "M4 6h16M4 12h16M4 18h16"} />
         </svg>
         {open ? "Close" : "Menu"}
       </button>
-      <nav id="primary-navigation" aria-label="Primary" className={`primary-navigation${open ? " is-open" : ""}`}>
+      <nav id="primary-navigation" aria-label="Primary" className={`${open ? "flex" : "hidden"} basis-full flex-col gap-1 pb-5 lg:flex lg:basis-auto lg:flex-row lg:items-center lg:gap-2 lg:p-0`}>
         {links.map(({ href, label }) => (
-          <Link key={href} href={href} aria-current={pathname === href ? "page" : undefined} onClick={() => setOpen(false)}>{label}</Link>
+          <Link className="flex min-h-11 items-center rounded px-3 py-2 hover:underline hover:underline-offset-[.3em] aria-[current=page]:bg-surface-accent aria-[current=page]:underline aria-[current=page]:underline-offset-[.4em]" key={href} href={href} aria-current={pathname === href ? "page" : undefined} onClick={() => setOpen(false)}>{label}</Link>
         ))}
-        <Link className="button navigation-cta" href={inquiry.href} aria-current={pathname === inquiry.href ? "page" : undefined} onClick={() => setOpen(false)}>{inquiry.label}</Link>
+        <Link className="inline-flex min-h-12 items-center justify-center rounded-[.35rem] border border-primary bg-primary px-5 py-[.65rem] text-center font-semibold text-primary-foreground hover:underline hover:underline-offset-[.2em] mt-2 lg:mt-0 lg:ml-3" href={inquiry.href} aria-current={pathname === inquiry.href ? "page" : undefined} onClick={() => setOpen(false)}>{inquiry.label}</Link>
       </nav>
     </div>
   );

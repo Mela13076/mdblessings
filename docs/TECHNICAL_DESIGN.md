@@ -382,6 +382,8 @@ TypeScript should be used consistently across the application.
 
 Use Tailwind CSS and a small, consistent set of design tokens to maintain visual consistency.
 
+Component styling lives in Tailwind utility classes in the relevant TSX file, including responsive, hover, focus and ARIA state variants. `src/app/globals.css` owns the Tailwind import, semantic theme tokens and document-wide defaults in `@layer base`; base defaults use `@apply` so component utilities can override them. No per-page or component stylesheet imports are needed. Keep full utility names literal (including conditional branches) so Tailwind can discover them.
+
 - Define shared brand colors, typography, spacing conventions, and border treatments.
 - Use existing MDBlessings branding and approved design references.
 - Prefer reusable styling patterns over duplicated complex class combinations.

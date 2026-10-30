@@ -7,8 +7,6 @@ import { catalogPageContent } from "@/content/catalog-page";
 import { productDetailContent as content } from "@/content/product-detail";
 import { getProductBySlug, getPublishedCategories, getPublishedProducts } from "@/lib/catalog";
 import { formatStartingPrice } from "@/lib/format-price";
-import "@/components/products/products.css";
-import "@/components/products/product-detail.css";
 
 export const dynamicParams = false;
 
@@ -33,52 +31,52 @@ export default async function ProductDetail({ params }: PageProps<"/products/[sl
   const related = category ? getPublishedProducts(category.slug).filter(({ id }) => id !== product.id).slice(0, 3) : [];
 
   return (
-    <div className="container product-detail-page">
-      <nav className="product-breadcrumbs" aria-label="Breadcrumb">
-        <ol>
-          <li><Link href="/">Home</Link></li>
-          <li><Link href="/products">Products</Link></li>
-          {category && <li><Link href={categoryHref}>{category.name}</Link></li>}
-          <li aria-current="page">{product.name}</li>
+    <div className="mx-auto w-[calc(100%_-_2.5rem)] max-w-[76rem] pt-8 pb-16">
+      <nav className="mb-6 text-sm/[inherit]" aria-label="Breadcrumb">
+        <ol className="flex list-none flex-wrap items-baseline gap-2 p-0">
+          <li className="wrap-anywhere not-first:before:mr-2 not-first:before:text-muted-foreground not-first:before:content-['›']"><Link className="inline-block py-2 underline underline-offset-[.25em]" href="/">Home</Link></li>
+          <li className="wrap-anywhere not-first:before:mr-2 not-first:before:text-muted-foreground not-first:before:content-['›']"><Link className="inline-block py-2 underline underline-offset-[.25em]" href="/products">Products</Link></li>
+          {category && <li className="wrap-anywhere not-first:before:mr-2 not-first:before:text-muted-foreground not-first:before:content-['›']"><Link className="inline-block py-2 underline underline-offset-[.25em]" href={categoryHref}>{category.name}</Link></li>}
+          <li className="wrap-anywhere not-first:before:mr-2 not-first:before:text-muted-foreground not-first:before:content-['›']" aria-current="page">{product.name}</li>
         </ol>
       </nav>
-      <p className="catalog-preview-note">{catalogPageContent.previewNotice}</p>
-      <div className="product-detail-overview">
+      <p className="mb-6 rounded-[.35rem] border border-border bg-surface-accent px-4 py-3 text-sm/[inherit] text-foreground">{catalogPageContent.previewNotice}</p>
+      <div className="grid items-start gap-8 md:grid-cols-2 md:gap-10">
         <ProductGallery key={product.id} images={product.images} productName={product.name} />
-        <section className="product-detail-summary" aria-labelledby="product-title">
-          <p className="eyebrow">{category?.name ?? catalogPageContent.categoryFallback}</p>
-          <h1 id="product-title">{product.name}</h1>
-          <p className="product-detail-price">{formatStartingPrice(product.startingPriceCents)}</p>
-          <p className="intro-copy">{product.description}</p>
-          <p className="catalog-pricing-note">{content.quoteNotice}</p>
-          <div className="product-detail-actions">
-            <Link className="button" href={`/request?product=${encodeURIComponent(product.slug)}`}>{content.quoteLabel}</Link>
-            <Link className="button button-secondary" href={categoryHref}>Browse {category?.name ?? "all products"}</Link>
+        <section className="min-w-0" aria-labelledby="product-title">
+          <p className="mb-4 text-xs/[inherit] font-semibold tracking-[.15em] text-muted-foreground uppercase">{category?.name ?? catalogPageContent.categoryFallback}</p>
+          <h1 className="max-w-none text-[clamp(2.25rem,4vw,3.5rem)] wrap-anywhere" id="product-title">{product.name}</h1>
+          <p className="mt-4 text-xl/[inherit] font-semibold">{formatStartingPrice(product.startingPriceCents)}</p>
+          <p className="mt-6 max-w-[40rem] text-lg/[inherit] text-muted-foreground">{product.description}</p>
+          <p className="mt-6 border-l-2 border-border pl-4 text-sm/[inherit] text-muted-foreground">{content.quoteNotice}</p>
+          <div className="mt-6 grid gap-3">
+            <Link className="inline-flex min-h-12 items-center justify-center rounded-[.35rem] border border-primary bg-primary px-5 py-[.65rem] text-center font-semibold text-primary-foreground hover:underline hover:underline-offset-[.2em]" href={`/request?product=${encodeURIComponent(product.slug)}`}>{content.quoteLabel}</Link>
+            <Link className="inline-flex min-h-12 items-center justify-center rounded-[.35rem] border border-primary bg-transparent px-5 py-[.65rem] text-center font-semibold text-foreground hover:underline hover:underline-offset-[.2em]" href={categoryHref}>Browse {category?.name ?? "all products"}</Link>
           </div>
-          <p className="product-detail-form-note">{content.formNotice}</p>
+          <p className="mt-4 text-sm/[inherit] text-muted-foreground">{content.formNotice}</p>
         </section>
       </div>
-      <div className="product-detail-information">
-        <details open>
-          <summary>{content.detailsTitle}</summary>
-          <p>{product.description}</p>
+      <div className="my-12 grid gap-6 md:grid-cols-2">
+        <details className="rounded-lg border border-border bg-surface p-5" open>
+          <summary className="min-h-11 cursor-pointer font-heading text-2xl leading-[normal] font-normal">{content.detailsTitle}</summary>
+          <p className="mt-4">{product.description}</p>
         </details>
-        <details open>
-          <summary>{content.informationTitle}</summary>
-          <dl>
-            <dt>Pricing</dt><dd>{content.pricingNotice}</dd>
-            <dt>Customization</dt><dd>{content.customizationNotice}</dd>
-            <dt>Pickup</dt><dd>{content.pickupNotice}</dd>
+        <details className="rounded-lg border border-border bg-surface p-5" open>
+          <summary className="min-h-11 cursor-pointer font-heading text-2xl leading-[normal] font-normal">{content.informationTitle}</summary>
+          <dl className="mt-4">
+            <dt className="font-semibold">Pricing</dt><dd className="mt-1 mb-4 text-muted-foreground">{content.pricingNotice}</dd>
+            <dt className="font-semibold">Customization</dt><dd className="mt-1 mb-4 text-muted-foreground">{content.customizationNotice}</dd>
+            <dt className="font-semibold">Pickup</dt><dd className="mt-1 mb-4 text-muted-foreground">{content.pickupNotice}</dd>
           </dl>
         </details>
       </div>
-      {related.length > 0 && <section className="product-detail-related" aria-labelledby="related-heading">
-        <h2 id="related-heading">Related products</h2>
+      {related.length > 0 && <section aria-labelledby="related-heading">
+        <h2 className="mb-4 font-heading text-[2rem] leading-[normal] font-normal" id="related-heading">Related products</h2>
         <ProductGrid products={related} categories={categories} />
       </section>}
-      <section className="product-detail-custom" aria-labelledby="custom-heading">
-        <div><h2 id="custom-heading">{content.customTitle}</h2><p>{content.customDescription}</p></div>
-        <Link className="button" href="/request">Request a custom quote</Link>
+      <section className="mt-12 flex flex-wrap items-center justify-between gap-6 rounded-lg bg-surface-accent p-[clamp(1.25rem,4vw,2.5rem)]" aria-labelledby="custom-heading">
+        <div><h2 className="mb-4 font-heading text-[2rem] leading-[normal] font-normal" id="custom-heading">{content.customTitle}</h2><p className="max-w-[40rem]">{content.customDescription}</p></div>
+        <Link className="inline-flex min-h-12 items-center justify-center rounded-[.35rem] border border-primary bg-primary px-5 py-[.65rem] text-center font-semibold text-primary-foreground hover:underline hover:underline-offset-[.2em]" href="/request">Request a custom quote</Link>
       </section>
     </div>
   );

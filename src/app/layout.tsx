@@ -13,7 +13,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <body>
-        {/* <a className="skip-link" href="#main-content">Skip to main content</a> */}
+        {/* <a className="fixed top-4 left-4 z-20 -translate-y-[200%] rounded-[.35rem] bg-primary px-4 py-3 text-primary-foreground focus:translate-y-0" href="#main-content">Skip to main content</a> */}
         <SiteHeader />
         <main id="main-content" tabIndex={-1}>{children}</main>
         <SiteFooter />
