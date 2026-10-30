@@ -121,7 +121,7 @@ Issue: [#9 — Implement product detail pages and gallery](https://github.com/Me
 
 ### Implemented
 
-- Server-rendered `/products/[slug]` uses published-only catalog getters, generates static params only for published records, and calls `notFound()` for unknown/unpublished records. `dynamicParams = false` limits served paths to that generated collection. Product-specific titles and descriptions use the same lookup.
+- Server-rendered `/products/[slug]` uses published-only catalog getters, generates static params only for published records, and calls `notFound()` for unknown/unpublished records. Unknown params are allowed through to the page lookup so `notFound()` can select the product-specific boundary; only published records are generated at build time. Product-specific titles and descriptions use the same lookup.
 - Breadcrumbs link to Home, Products and the category filter. The overview stacks gallery before product information on mobile and splits into columns from 768px. Existing cream/champagne tokens, typography and shell remain in use.
 - Product name, category, description, shared starting-price formatter, final-quote/local-pickup notices, category browse link, native expandable detail/information panels, same-category related cards (excluding the current product), and general custom-quote CTA.
 - `ProductGallery` is the sole new client boundary. Supplied example photos use Next.js Image, real dimensions, responsive sizes and contain cropping. Previous/next buttons wrap; thumbnail buttons select directly and expose pressed state. Native buttons support Tab and Enter/Space; a polite live caption announces the current example. There is no autoplay or animation.
@@ -176,3 +176,11 @@ Developer requested replacing custom component CSS throughout the site with Tail
 - Audited utility generation with the installed Tailwind compiler, including responsive classes, pseudo-element breadcrumb separators, ARIA selection states, semantic theme colors, group variants and calculated widths. The only non-utility found by the inspection script was the `story` prop comparison value; `group` is intentionally a Tailwind state marker.
 - Safari production preview on port 3100: reviewed the product detail page at desktop width and 375px; breadcrumbs align and the mobile overview stacks. Opened the mobile menu and confirmed expanded links appear; Escape closes it. Reviewed the mobile homepage hero, stacked CTAs and placeholder artwork at 375px.
 - Full multi-width visual comparisons of every lower section, real-photo gallery interaction, touch-device testing and screen-reader/zoom checks remain release QA. Further native-browser inspection was interrupted by a `noWindowsAvailable` tool error; no complete visual audit is claimed.
+
+### Product-specific not-found follow-up — 2026-10-29
+
+The developer added `src/app/products/[slug]/not-found.tsx`. Removed `dynamicParams = false`, which rejected unknown slugs before the page lookup and used the global fallback. `generateStaticParams()` still prebuilds published products; unknown/unpublished slugs reach the published-only lookup and call `notFound()` within the product route. Missing-product metadata returns a generic noindex title so the page owns the not-found interrupt.
+
+Local development HTTP check: unknown product returns 404 with noindex and the product-specific boundary/copy in the React response payload. A complete hydrated browser check was not completed in this follow-up. The developer's new not-found markup/copy was preserved.
+
+Follow-up checks: lint, typecheck and whitespace checks pass. Production build remains blocked by the Turbopack CSS-worker port restriction, including the elevated retry.

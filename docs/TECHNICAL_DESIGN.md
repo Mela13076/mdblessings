@@ -181,6 +181,8 @@ Any future migration should preserve the reusable component contracts and simpli
 
 ## 13. Open technical decisions
 
+See [CLIENT_CONFIRMATIONS.md](CLIENT_CONFIRMATIONS.md) for the shared client confirmation record, including email/form configuration and approval status. Reflect confirmed technical decisions in this document before implementation.
+
 - Resend sending domain and recipient inbox; exact contact fields and optional Messenger treatment.
 - Visual design tokens, fonts, logo/image assets, and page mockups. Use existing logo and card references as inspiration; proposed blush/pink, cream and restrained gold require owner approval and accessible contrast.
 - Hosting/domain selection confirmation.

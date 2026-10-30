@@ -8,7 +8,8 @@ import { productDetailContent as content } from "@/content/product-detail";
 import { getProductBySlug, getPublishedCategories, getPublishedProducts } from "@/lib/catalog";
 import { formatStartingPrice } from "@/lib/format-price";
 
-export const dynamicParams = false;
+// Allow unknown slugs to reach notFound() and this segment's custom 404 UI.
+// Published products below are still generated at build time.
 
 export function generateStaticParams() {
   return getPublishedProducts().map(({ slug }) => ({ slug }));
@@ -17,7 +18,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/products/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const product = getProductBySlug(slug);
-  if (!product) notFound();
+  // Let the page render the segment's not-found boundary; metadata is resolved
+  // outside that boundary and should not interrupt it with a second 404.
+  if (!product) return { title: "Product not found", robots: { index: false } };
   return { title: product.name, description: product.description };
 }
 
