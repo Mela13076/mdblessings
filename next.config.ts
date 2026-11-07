@@ -4,7 +4,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   turbopack: {
     rules: {
-      "*.css": {
+      // Only the global stylesheet needs Tailwind processing. Applying this
+      // loader to .module.css files removes their CSS Module class exports.
+      "globals.css": {
         loaders: ["@tailwindcss/turbopack"],
         as: "*.css",
       },

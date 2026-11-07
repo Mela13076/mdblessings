@@ -22,7 +22,7 @@ The website will give customers a place to explore examples of the business's wo
 
 Displayed prices are **starting prices**, with final pricing confirmed by the owner. Submitting an inquiry does not create a confirmed or paid order. V1 supports **local pickup only**, with exact details arranged privately.
 
-The inquiry delivery method remains pending owner review: a hosted Google Form connected to Google Sheets, a custom form delivered through Resend email, or a custom form connected to Google Sheets. The selected flow will include a privacy notice and fallback contact path.
+The selected inquiry flow is a custom on-site form delivered through Resend email. Recipient mailbox, verified sending domain, privacy wording, and fallback contact channel still require owner confirmation. The current `/request` route is a clearly labeled preview and does not collect or submit inquiries.
 
 ### V1 boundaries
 
@@ -63,10 +63,12 @@ Open [localhost:3000](http://localhost:3000). The home page entry point is `src/
 | --- | --- |
 | `npm run dev` | Start the local development server. |
 | `npm run lint` | Run ESLint. |
+| `npm run typecheck` | Generate Next.js route types and check TypeScript without emitting files. |
+| `npm test` | Compile and run catalog, price, and product-card/grid checks with Node's built-in test runner. |
 | `npm run build` | Create a production build. |
 | `npm start` | Serve the production build after running `npm run build`. |
 
-No automated test script is configured yet. Testing tools will be chosen as features require them.
+Tests use the existing TypeScript compiler and Node's built-in test runner, with no additional dependencies. Generated CommonJS test files go to ignored `.test-build/`; edit source tests in `src/lib/` and `src/components/products/`. Component tests render markup with React's server renderer; browser layout and interactions still need manual review.
 
 No inquiry-provider credentials are required for the current scaffold. Any future provider secrets must stay server-side in local or deployment environment configuration. Never commit secrets or customer inquiry data.
 
@@ -80,6 +82,8 @@ AGENTS.md             Engineering collaboration guidelines
 ```
 
 Product content modules and reusable components will be added under `src/` as their roadmap tickets are implemented.
+
+The M1-01 global shell lives in `src/components/layout/`, with shared business identity and navigation in `src/content/site.ts`. The M1-02 homepage follows the design wireframe with clearly labeled preview copy and photo placeholders; its content is in `src/content/home.ts` and placeholder helpers are in `src/components/home/`. Component styling uses Tailwind utilities; `src/app/globals.css` contains the Tailwind import, shared theme tokens and base defaults. Catalog, content, and form routes still have preview pages. Published product-detail URLs now show the M2-04 detail page and gallery; unknown/unpublished URLs return 404. The request preview preserves product context via `?product=<slug>`, with the form still deferred to M3. See [Milestone 1 verification](docs/varification/M1_VERIFICATION.md) and [Milestone 2 verification](docs/varification/M2_VERIFICATION.md) for issue-by-issue checks and remaining review work.
 
 ## Project documentation
 

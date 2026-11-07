@@ -100,6 +100,8 @@ Owner must approve: business story, logo usage, photos, product names/descriptio
 
 ## 8. Open decisions / blockers
 
+Track detailed client answers, approval dates, and outstanding questions in [CLIENT_CONFIRMATIONS.md](CLIENT_CONFIRMATIONS.md). Confirmed decisions that affect requirements must also be reflected here.
+
 | Decision | Owner | Deadline relative to implementation | Notes |
 |---|---|---|---|
 | Resend recipient mailbox, sender domain and DNS access | Owner + developer | Before production inquiry testing | Custom on-site form + Resend is selected; verify sender setup and actual receipt. |

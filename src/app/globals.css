@@ -1,26 +1,54 @@
 @import "tailwindcss";
 
+/* Proposed light palette; final branding and typography await owner review. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
+  --pink-soft: #f6d7de;
+  --gold: #d4a64c;
+  --background: #fff9f1;
+  --surface: #fffdf9;
+  --surface-accent: #f3e6ce;
+  --foreground: #4a3028;
+  --muted-foreground: #715d52;
+  --border: #e4d1b5;
+  --primary: #4a3028;
+  --primary-foreground: #fff9f1;
+  --font-body: Arial, Helvetica, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-surface-accent: var(--surface-accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-pink-soft: var(--pink-soft);
+  --color-gold: var(--gold);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --font-heading: Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Base defaults belong to Tailwind's base layer so utilities can override them. */
+@layer base {
+  body {
+    @apply m-0 flex min-h-dvh flex-col bg-background font-sans leading-[1.6] text-foreground;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  main { @apply flex-1; }
+
+  a, button {
+    @apply touch-manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button { @apply cursor-pointer; }
+
+  :focus-visible { @apply outline-3 outline-offset-[5px] outline-foreground; }
+
+  h1 {
+    @apply max-w-[18ch] font-heading text-[clamp(2.5rem,5vw,4.5rem)] leading-[1.1] font-normal text-balance;
+  }
 }

@@ -181,10 +181,12 @@ Any future migration should preserve the reusable component contracts and simpli
 
 ## 13. Open technical decisions
 
+See [CLIENT_CONFIRMATIONS.md](CLIENT_CONFIRMATIONS.md) for the shared client confirmation record, including email/form configuration and approval status. Reflect confirmed technical decisions in this document before implementation.
+
 - Resend sending domain and recipient inbox; exact contact fields and optional Messenger treatment.
 - Visual design tokens, fonts, logo/image assets, and page mockups. Use existing logo and card references as inspiration; proposed blush/pink, cream and restrained gold require owner approval and accessible contrast.
 - Hosting/domain selection confirmation.
-- Whether product filters persist in URL; decide during product-gallery ticket.
+- Category filters use server-rendered URL query parameters (`/products?category=<slug>`) as implemented in M2-03; refresh, sharing, and browser history retain the selection.
 - Whether starting prices are available for every product; define display fallback if not.
 - Exact test/tooling versions after project initialization.
 
@@ -381,6 +383,8 @@ TypeScript should be used consistently across the application.
 ### 15.7 Styling and Design Consistency
 
 Use Tailwind CSS and a small, consistent set of design tokens to maintain visual consistency.
+
+Component styling lives in Tailwind utility classes in the relevant TSX file, including responsive, hover, focus and ARIA state variants. `src/app/globals.css` owns the Tailwind import, semantic theme tokens and document-wide defaults in `@layer base`; base defaults use `@apply` so component utilities can override them. No per-page or component stylesheet imports are needed. Keep full utility names literal (including conditional branches) so Tailwind can discover them.
 
 - Define shared brand colors, typography, spacing conventions, and border treatments.
 - Use existing MDBlessings branding and approved design references.

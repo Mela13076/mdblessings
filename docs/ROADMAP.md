@@ -7,6 +7,8 @@
 
 ## Working agreement
 
+Client answers and approvals are collected in [CLIENT_CONFIRMATIONS.md](CLIENT_CONFIRMATIONS.md); use that record to resolve owner dependencies and keep the PRD/technical notes aligned.
+
 - Developer chooses priorities, validates business details, reviews PRs/diffs and approves deployment.
 - Codex implements approved issues directly, including code, responsive styling, accessibility, reasonable tests and relevant docs.
 - Batch closely coupled work when efficient, but keep issues reviewable with explicit acceptance criteria and dependencies.
